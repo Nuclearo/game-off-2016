@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 
 public class CameraInputProcessor extends CameraInputController {
+	public int edgeScrollWidth=4;
 	
 	public CameraInputProcessor(Camera cam){
 		super(cam);
@@ -52,6 +53,25 @@ public class CameraInputProcessor extends CameraInputController {
 		}
 		if (autoUpdate) camera.update();
 		return true;
+	}
+	
+	@Override
+	public void update() {
+		int mouseX = Gdx.input.getX();
+		int mouseY = Gdx.input.getY();
+		if (mouseX<=edgeScrollWidth){
+			camera.translate(translateUnits, 0, 0);
+		}
+		if (mouseX>=Gdx.graphics.getWidth()-edgeScrollWidth){
+			camera.translate(-translateUnits, 0, 0);
+		}
+		if (mouseY<=edgeScrollWidth){
+			camera.translate(0, -translateUnits, 0);
+		}
+		if (mouseY>=Gdx.graphics.getHeight()-edgeScrollWidth){
+			camera.translate(0, translateUnits, 0);
+		}
+		super.update();
 	}
 
 }
