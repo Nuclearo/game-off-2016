@@ -2,49 +2,74 @@ package nukey.nova.cool;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Cool extends ApplicationAdapter {
 	private SpriteBatch batch;
-	private Texture img;
+	private Sprite img;
+	private ScalingViewport view;
 	private OrthographicCamera cam;
+	private CameraInputProcessor camController;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		img = new Sprite(new Texture("badlogic.jpg"));
 		
 
-        float w = Gdx.graphics.getWidth();
-        float h = Gdx.graphics.getHeight();
+        int w = Gdx.graphics.getWidth();
+        int h = Gdx.graphics.getHeight();
 
+		img.setSize(5, 5);
 		cam = new OrthographicCamera(w,h);
+		view = new ScalingViewport(Scaling.fit,w,h,cam);
+		view.update(w, h);
         cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 2);
+        cam.far = 1000;
         cam.update();
         
-        Gdx.input.setInputProcessor(new CameraInputProcessor(cam));
+        camController = new CameraInputProcessor(cam);
+        camController.translateUnits = 1;
+        camController.rotateAngle = 0;
+        Gdx.input.setInputProcessor(camController);
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-        cam.update();
-		batch.setProjectionMatrix(cam.combined);
+        int w = Gdx.graphics.getWidth();
+        int h = Gdx.graphics.getHeight();
+		view.update(w, h);
 		
+		camController.update();
+		batch.setProjectionMatrix(cam.combined);
+
 		batch.begin();
 		batch.draw(img, 0, 0);
 		batch.end();
 	}
 	
+	public void resize(int width, int height) {
+//        view.update(width, height);
+    }
+	
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
+		img.getTexture().dispose();
 	}
 }

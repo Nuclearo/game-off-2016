@@ -2,68 +2,56 @@ package nukey.nova.cool;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector3;
 
-public class CameraInputProcessor implements InputProcessor {
-	private Camera _cam;
+public class CameraInputProcessor extends CameraInputController {
 	
 	public CameraInputProcessor(Camera cam){
-		this._cam = cam;
+		super(cam);
+		
+	/** The button for rotating the camera. */
+	rotateButton = -1;
+	rotateAngle = 0f;
+	translateButton = Buttons.RIGHT;
+	translateUnits = 10f; // FIXME auto calculate this based on the target
+	forwardButton = -1;
+	activateKey = 0;
+	alwaysScroll = true;
+	scrollFactor = -0.1f;
+	pinchZoomFactor = 10f;
+	forwardKey = Keys.ANY_KEY;
+	backwardKey = Keys.ANY_KEY;
 	}
-	
+
+	private final Vector3 tmpV1 = new Vector3();
+	private final Vector3 tmpV2 = new Vector3();
+
 	@Override
-	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean touchDragged(float x, float y, int pointer) {
+		return super.touchDragged(x, y, pointer);
 	}
 
 	@Override
-	public boolean keyUp(int keycode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		if(Gdx.input.isButtonPressed(Buttons.RIGHT)){
-			int deltaX = -Gdx.input.getDeltaX();
-			int deltaY = Gdx.input.getDeltaY();
-			_cam.translate(deltaX, deltaY, 0);
-			return true;
-		}else{
-			return false;
+	protected boolean process (float deltaX, float deltaY, int button) {
+		if (button == rotateButton) {
+			tmpV1.set(camera.direction).crs(camera.up).y = 0f;
+			camera.rotateAround(target, tmpV1.nor(), deltaY * rotateAngle);
+			camera.rotateAround(target, Vector3.Y, deltaX * -rotateAngle);
+		} else if (button == translateButton) {
+			camera.translate(tmpV1.set(camera.direction).crs(camera.up).nor().scl(-deltaX * camera.viewportWidth));
+			camera.translate(tmpV2.set(camera.up).scl(-deltaY * camera.viewportHeight));
+			if (translateTarget) target.add(tmpV1).add(tmpV2);
+		} else if (button == forwardButton) {
+			camera.translate(tmpV1.set(camera.direction).scl(deltaY * translateUnits));
+			if (forwardTarget) target.add(tmpV1);
 		}
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
-		return false;
+		if (autoUpdate) camera.update();
+		return true;
 	}
 
 }
