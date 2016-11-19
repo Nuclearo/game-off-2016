@@ -18,21 +18,21 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Cool extends ApplicationAdapter {
 	private SpriteBatch batch;
-	private Sprite img;
 	private ScalingViewport view;
 	private OrthographicCamera cam;
 	private CameraInputProcessor camController;
+	private Map world;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Sprite(new Texture("badlogic.jpg"));
+		
+		world = new Map("testmap.dat");
 		
 
         int w = Gdx.graphics.getWidth();
         int h = Gdx.graphics.getHeight();
 
-		img.setSize(5, 5);
 		cam = new OrthographicCamera(w,h);
 		view = new ScalingViewport(Scaling.fit,w,h,cam);
 		view.update(w, h);
@@ -59,7 +59,7 @@ public class Cool extends ApplicationAdapter {
 		batch.setProjectionMatrix(cam.combined);
 
 		batch.begin();
-		batch.draw(img, 0, 0);
+		world.render(batch);
 		batch.end();
 	}
 	
@@ -70,6 +70,5 @@ public class Cool extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.getTexture().dispose();
 	}
 }
