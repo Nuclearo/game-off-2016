@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 
 public class CameraInputProcessor extends CameraInputController {
-	public int edgeScrollWidth=4;
+	public int edgeScrollWidth=16;
 	
 	public CameraInputProcessor(Camera cam){
 		super(cam);
@@ -19,7 +19,7 @@ public class CameraInputProcessor extends CameraInputController {
 	rotateButton = -1;
 	rotateAngle = 0f;
 	translateButton = Buttons.RIGHT;
-	translateUnits = 10f; // FIXME auto calculate this based on the target
+	translateUnits = 10f; 
 	forwardButton = -1;
 	activateKey = 0;
 	alwaysScroll = true;
@@ -60,16 +60,16 @@ public class CameraInputProcessor extends CameraInputController {
 		int mouseX = Gdx.input.getX();
 		int mouseY = Gdx.input.getY();
 		if (mouseX<=edgeScrollWidth){
-			camera.translate(translateUnits, 0, 0);
-		}
-		if (mouseX>=Gdx.graphics.getWidth()-edgeScrollWidth){
 			camera.translate(-translateUnits, 0, 0);
 		}
+		if (mouseX>=Gdx.graphics.getWidth()-edgeScrollWidth){
+			camera.translate(translateUnits, 0, 0);
+		}
 		if (mouseY<=edgeScrollWidth){
-			camera.translate(0, -translateUnits, 0);
+			camera.translate(0, translateUnits, 0);
 		}
 		if (mouseY>=Gdx.graphics.getHeight()-edgeScrollWidth){
-			camera.translate(0, translateUnits, 0);
+			camera.translate(0, -translateUnits, 0);
 		}
 		super.update();
 	}
