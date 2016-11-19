@@ -3,10 +3,8 @@ package nukey.nova.cool;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 
 public class CameraInputProcessor extends CameraInputController {
