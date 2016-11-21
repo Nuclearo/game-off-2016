@@ -16,6 +16,7 @@ public class Cool extends ApplicationAdapter {
 	private CameraInputProcessor camController;
 	private Map world;
 	private UI gui;
+	private UnitManager AI;
 	
 	public enum Player{
 		HACKER,
@@ -29,6 +30,7 @@ public class Cool extends ApplicationAdapter {
 		
 		gui = new UI(this);
 		world = new Map("testmap.dat");
+		AI = new UnitManager("testunits.dat");
 
         int w = Gdx.graphics.getWidth();
         int h = Gdx.graphics.getHeight();
@@ -59,6 +61,7 @@ public class Cool extends ApplicationAdapter {
 		batch.setProjectionMatrix(cam.combined);
 		batch.begin();
 		world.render(batch);
+		AI.render(batch, world);
 		batch.end();
 
 		gui.draw();

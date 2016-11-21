@@ -12,19 +12,18 @@ public class Map {
 	private Tile[][] tilesheet;
 	private int height, width;
 	private int tileHeight=64,tileWidth=64;
+	
 	private Sprite[] sprites={new Sprite(new Texture("tileA.jpg"))};
 	
 	public Tile getTile(int x,int y) {
 		return tilesheet[x][y];
 	}
-	
 	Map(String datafile) {
 		BufferedReader mapdata=null;
 		mapdata=new BufferedReader(Gdx.files.internal(datafile).reader(1024));
 		try {
 			String size[]=new String[4];
-			size[0]=mapdata.readLine();
-			size=size[0].split(",");
+			size=mapdata.readLine().split(",");
 			
 			height=Integer.parseInt(size[0]);
 			width=Integer.parseInt(size[1]);
@@ -55,6 +54,18 @@ public class Map {
 		} catch (IOException e) {
 			e.printStackTrace();
 		};
+	}
+	public int getHeight() {
+		return height;
+	}
+	public int getWidth() {
+		return width;
+	}
+	public int getTileHeight() {
+		return tileHeight;
+	}
+	public int getTileWidth() {
+		return tileWidth;
 	}
 	public void render(SpriteBatch batch) {
 		for (int i=0;i<height;i++) {
