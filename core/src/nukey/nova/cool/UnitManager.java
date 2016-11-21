@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class UnitManager {
 	private ArrayList<Unit> units=new ArrayList<Unit>();
-	private Sprite[] sprites={new Sprite(new Texture("unitA.jpg"))};
+	private Sprite[] sprites={new Sprite(new Texture("unitA.png"))};
 		
 	UnitManager(String datafile) {
 		BufferedReader unitdata=null;
