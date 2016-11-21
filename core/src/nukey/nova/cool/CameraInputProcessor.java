@@ -70,6 +70,7 @@ public class CameraInputProcessor extends CameraInputController {
 			camera.translate(0, -translateUnits, 0);
 		}
 		super.update();
+		camera.update();
 	}
 
 }
