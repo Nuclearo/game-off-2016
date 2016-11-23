@@ -16,7 +16,8 @@ public class Cool extends ApplicationAdapter {
 	private CameraInputProcessor camController;
 	private Map world;
 	private UI gui;
-	private UnitManager AI;
+	private UnitManager unitManager;
+	private Unit selectedUnit=null;
 	
 	public enum Player{
 		HACKER,
@@ -30,7 +31,7 @@ public class Cool extends ApplicationAdapter {
 		
 		gui = new UI(this);
 		world = new Map("testmap.dat");
-		AI = new UnitManager("testunits.dat");
+		unitManager = new UnitManager("testunits.dat");
 
         int w = Gdx.graphics.getWidth();
         int h = Gdx.graphics.getHeight();
@@ -61,7 +62,7 @@ public class Cool extends ApplicationAdapter {
 		batch.setProjectionMatrix(cam.combined);
 		batch.begin();
 		world.render(batch);
-		AI.render(batch, world);
+		unitManager.render(batch, world, this);
 		batch.end();
 
 		gui.draw();
@@ -84,8 +85,18 @@ public class Cool extends ApplicationAdapter {
 	public void nextTurn() {
 		if(currentPlayer==Player.HACKER){
 			currentPlayer = Player.AI;
+			unitManager.newTurn(currentPlayer);
 		}else{
 			currentPlayer = Player.HACKER;
+			unitManager.newTurn(currentPlayer);
 		}
+	}
+
+	public Unit getSelectedUnit() {
+		return selectedUnit;
+	}
+
+	public void setSelectedUnit(Unit selectedUnit) {
+		this.selectedUnit = selectedUnit;
 	}
 }

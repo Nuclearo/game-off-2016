@@ -1,7 +1,10 @@
 package nukey.nova.cool;
 
+import nukey.nova.cool.Cool.Player;
+
 public abstract class Unit {
-	private int xpos,ypos,HP,attack,range,owner,speed,sprite;
+	private int xpos,ypos,HP,maxHP,attack,range,speed,sprite,actions,maxActions;
+	private Player owner;
 	
 	public int getSprite() {
 		return sprite;
@@ -9,6 +12,30 @@ public abstract class Unit {
 	
 	public int getXpos() {
 		return xpos;
+	}
+
+	public int getMaxHP() {
+		return maxHP;
+	}
+
+	public void setMaxHP(int maxHP) {
+		this.maxHP = maxHP;
+	}
+
+	public int getActions() {
+		return actions;
+	}
+
+	public void setActions(int actions) {
+		this.actions = actions;
+	}
+
+	public int getMaxActions() {
+		return maxActions;
+	}
+
+	public void setMaxActions(int maxActions) {
+		this.maxActions = maxActions;
 	}
 
 	public int getHP() {
@@ -35,11 +62,11 @@ public abstract class Unit {
 		this.range = range;
 	}
 
-	public int getOwner() {
+	public Player getOwner() {
 		return owner;
 	}
 
-	public void setOwner(int owner) {
+	public void setOwner(Player owner) {
 		this.owner = owner;
 	}
 
@@ -73,15 +100,3 @@ public abstract class Unit {
 	}
 }
 
-
-/*
-
-
-wife try to make the Unit class more substantial, maybe create a couple subclasses like Hacker and Drone.. 
-
-and make Cool.nextTurn() actually do something of value, like process all the units or whatever..
-
-don't be afraid to move stuff into subclasses if Cool becomes cluttered...
-
-
-*/

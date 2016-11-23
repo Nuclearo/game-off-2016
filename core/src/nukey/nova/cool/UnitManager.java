@@ -9,9 +9,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import nukey.nova.cool.Cool.Player;
+
 public class UnitManager {
 	private ArrayList<Unit> units=new ArrayList<Unit>();
-	private Sprite[] sprites={new Sprite(new Texture("unitA.png"))};
+	private Sprite[] sprites={
+			new Sprite(new Texture("player.png")),
+			new Sprite(new Texture("unitA.png"))};
+	private Sprite acted=new Sprite(new Texture("acted.png"));
+	private Sprite select=new Sprite(new Texture("select.png"));
 		
 	UnitManager(String datafile) {
 		BufferedReader unitdata=null;
@@ -21,11 +27,17 @@ public class UnitManager {
 			while ((unit[0]=unitdata.readLine()) != null) {
 				unit=unit[0].split(",",3);
 				switch (Integer.parseInt(unit[0])) {
+					case 0:
+						units.add(new Hacker(
+								Integer.parseInt(unit[1])-1,
+								Integer.parseInt(unit[2])-1,
+								Player.HACKER));
+						break;
 					case 1:
 						units.add(new Drone(
-								Integer.parseInt(unit[1]),
-								Integer.parseInt(unit[2]),
-								1));
+								Integer.parseInt(unit[1])-1,
+								Integer.parseInt(unit[2])-1,
+								Player.AI));
 						break;
 				}
 			}
@@ -42,9 +54,25 @@ public class UnitManager {
 			e.printStackTrace();
 		};
 	}
-	public void render(SpriteBatch batch, Map map) {
+	public void render(SpriteBatch batch, Map map, Cool cool) {
 		for (Unit unit: units) {
 			batch.draw(sprites[unit.getSprite()], unit.getXpos()*map.getTileWidth(), unit.getYpos()*map.getTileHeight());
+			if (unit.getOwner()==cool.getCurrentPlayer() && unit.getActions()==0) {
+				batch.draw(acted,unit.getXpos()*map.getTileWidth(),unit.getYpos()*map.getTileHeight());
+			}
+			if (unit==cool.getSelectedUnit()) {
+				batch.draw(select,unit.getXpos()*map.getTileWidth(),unit.getYpos()*map.getTileHeight());
+			}
+		}
+	}
+	public void newTurn(Player startturn) {
+		for (Unit unit:units) {
+			if (unit.getOwner()==startturn) {
+				unit.setActions(unit.getMaxActions());
+			}
+			else {
+				unit.setActions(0);
+			}
 		}
 	}
 }
