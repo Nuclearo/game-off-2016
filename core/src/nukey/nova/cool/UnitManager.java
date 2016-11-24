@@ -46,11 +46,6 @@ public class UnitManager {
 						break;
 				}
 			}
-			
-/* TODO 1: display bandwidth and remaining actions
-1: let the player take their turn
-2: enemy actions
-3: repeatable commands/instructions*/
 		}
 		catch (NumberFormatException e1) {
 			e1.printStackTrace();
@@ -68,7 +63,6 @@ public class UnitManager {
 		return units;
 	}
 	public void render(SpriteBatch batch, Map map, Cool cool) {
-		System.out.println(Gdx.input.getX() + "," + Gdx.input.getY());
 		for (Unit unit: units) {
 			batch.draw(sprites[unit.getSprite()], unit.getXpos()*map.getTileWidth(), unit.getYpos()*map.getTileHeight());
 			if (unit.getOwner()==cool.getCurrentPlayer() && unit.getActions()==0) {

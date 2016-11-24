@@ -90,7 +90,9 @@ public class UI {
 				}
 				return true;
 			case Buttons.RIGHT:
-				if (game.getSelectedUnit()!=null) {
+				if (game.getSelectedUnit()!=null
+				&& game.getSelectedUnit().getActions()>0
+				&& (game.getSelectedUnit().getOwner()==game.getCurrentPlayer())) {
 					Unit current=game.getSelectedUnit();
 					Map world=game.getWorld();
 					
