@@ -3,6 +3,7 @@ package nukey.nova.cool;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -98,5 +99,13 @@ public class Cool extends ApplicationAdapter {
 
 	public void setSelectedUnit(Unit selectedUnit) {
 		this.selectedUnit = selectedUnit;
+	}
+
+	public Camera getCamera() {
+		return cam;
+	}
+	
+	public Map getWorld() {
+		return world;
 	}
 }

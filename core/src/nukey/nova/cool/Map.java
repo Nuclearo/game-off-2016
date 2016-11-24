@@ -16,8 +16,17 @@ public class Map {
 	private Sprite[] sprites={new Sprite(new Texture("tileA.jpg"))};
 	
 	public Tile getTile(int x,int y) {
-		return tilesheet[x][y];
+		if(x>=0 && x<width && y>=0 && y<height){
+			return tilesheet[x][y];
+		} else {
+			return null;
+		}
 	}
+	
+	public Tile getTileByCoords(float x, float y){
+		return getTile((int)(x/tileWidth),(int)(y/tileHeight));
+	}
+	
 	Map(String datafile) {
 		BufferedReader mapdata=null;
 		mapdata=new BufferedReader(Gdx.files.internal(datafile).reader(1024));
