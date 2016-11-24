@@ -38,15 +38,15 @@ public class Map {
 			width=Integer.parseInt(size[1]);
 			tilesheet=new Tile[width][height];
 			
-			String tileCol[]=new String[width];
+			String tileRow[]=new String[width];
 			int tiletype;
 			
 			
 			for (int i=0;i<height;i++) {
-				tileCol=mapdata.readLine().split(",",width);
+				tileRow=mapdata.readLine().split(",",width);
 				for (int j=0;j<width;j++) {
 					
-					tiletype=Integer.parseInt(tileCol[j]);					
+					tiletype=Integer.parseInt(tileRow[j]);					
 					tilesheet[j][height-1-i]=new Tile(tiletype);
 					
 				}
@@ -64,6 +64,12 @@ public class Map {
 			e.printStackTrace();
 		};
 	}
+	public int getDistanceByCoords(Unit unit, float x, float y) {
+		int xdist=Math.abs(unit.getXpos()-(int)(x/tileWidth));
+		int ydist=Math.abs(unit.getYpos()-(int)(y/tileHeight));
+		return (xdist+ydist);
+	}
+	
 	public int getHeight() {
 		return height;
 	}

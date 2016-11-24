@@ -19,28 +19,38 @@ public class UnitManager {
 	private Sprite acted=new Sprite(new Texture("acted.png"));
 	private Sprite select=new Sprite(new Texture("select.png"));
 		
-	UnitManager(String datafile) {
+	UnitManager(String datafile, Map map) {
 		BufferedReader unitdata=null;
 		unitdata=new BufferedReader(Gdx.files.internal(datafile).reader(1024));
 		String unit[]=new String[3];
+		Unit newUnit;
 		try {
 			while ((unit[0]=unitdata.readLine()) != null) {
 				unit=unit[0].split(",",3);
 				switch (Integer.parseInt(unit[0])) {
 					case 0:
-						units.add(new Hacker(
+						newUnit=new Hacker(
 								Integer.parseInt(unit[1])-1,
 								Integer.parseInt(unit[2])-1,
-								Player.HACKER));
+								Player.HACKER);
+						units.add(newUnit);
+						map.getTile(Integer.parseInt(unit[1])-1, Integer.parseInt(unit[2])-1).setUnit(newUnit);;
 						break;
 					case 1:
-						units.add(new Drone(
+						newUnit=new Drone(
 								Integer.parseInt(unit[1])-1,
 								Integer.parseInt(unit[2])-1,
-								Player.AI));
+								Player.AI);
+						units.add(newUnit);
+						map.getTile(Integer.parseInt(unit[1])-1,Integer.parseInt(unit[2])-1).setUnit(newUnit);;
 						break;
 				}
 			}
+			
+/* TODO 1: display bandwidth and remaining actions
+1: let the player take their turn
+2: enemy actions
+3: repeatable commands/instructions*/
 		}
 		catch (NumberFormatException e1) {
 			e1.printStackTrace();
@@ -54,7 +64,11 @@ public class UnitManager {
 			e.printStackTrace();
 		};
 	}
+	public ArrayList<Unit> getUnits() {
+		return units;
+	}
 	public void render(SpriteBatch batch, Map map, Cool cool) {
+		System.out.println(Gdx.input.getX() + "," + Gdx.input.getY());
 		for (Unit unit: units) {
 			batch.draw(sprites[unit.getSprite()], unit.getXpos()*map.getTileWidth(), unit.getYpos()*map.getTileHeight());
 			if (unit.getOwner()==cool.getCurrentPlayer() && unit.getActions()==0) {

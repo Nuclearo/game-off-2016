@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector3;
@@ -88,6 +87,38 @@ public class UI {
 					game.setSelectedUnit(tile.getUnit());
 				} else {
 					game.setSelectedUnit(null);
+				}
+				return true;
+			case Buttons.RIGHT:
+				if (game.getSelectedUnit()!=null) {
+					Unit current=game.getSelectedUnit();
+					Map world=game.getWorld();
+					
+					Vector3 worldCoord2 = game.getCamera().unproject(new Vector3(screenX, screenY, 0));
+					Tile tile2 =  world.getTileByCoords(worldCoord2.x, worldCoord2.y);
+					
+					if(tile2!=null){
+						int dist=world.getDistanceByCoords(current, worldCoord2.x, worldCoord2.y);
+						
+						if (tile2.getUnit()!=null) {
+							if (dist<current.getRange()) {
+								Unit target=tile2.getUnit();
+								target.setHP(target.getHP()-current.getAttack());
+								if (target.getHP()<0) {
+									game.getUnitManager().getUnits().remove(target);
+								}
+								current.setActions(current.getActions()-1);
+							}
+						} else {
+							if (dist<current.getSpeed()) {
+								world.getTile(current.getXpos(),current.getYpos()).setUnit(null);
+								current.setXpos((int)(worldCoord2.x/world.getTileWidth()));
+								current.setYpos((int)(worldCoord2.y/world.getTileHeight()));
+								tile2.setUnit(current);
+								current.setActions(current.getActions()-1);
+							}
+						}
+					}
 				}
 				return true;
 			default:

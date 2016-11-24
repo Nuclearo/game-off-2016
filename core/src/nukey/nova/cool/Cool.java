@@ -20,6 +20,10 @@ public class Cool extends ApplicationAdapter {
 	private UnitManager unitManager;
 	private Unit selectedUnit=null;
 	
+	public UnitManager getUnitManager() {
+		return unitManager;
+	}
+
 	public enum Player{
 		HACKER,
 		AI
@@ -32,7 +36,7 @@ public class Cool extends ApplicationAdapter {
 		
 		gui = new UI(this);
 		world = new Map("testmap.dat");
-		unitManager = new UnitManager("testunits.dat");
+		unitManager = new UnitManager("testunits.dat", world);
 
         int w = Gdx.graphics.getWidth();
         int h = Gdx.graphics.getHeight();

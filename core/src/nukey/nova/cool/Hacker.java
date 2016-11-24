@@ -14,9 +14,9 @@ public class Hacker extends Unit {
 		this.setOwner(owner);
 		this.setSpeed(5);
 		this.setSprite(0);
-		this.setActions(0);
+		this.setActions(2);
 		this.setMaxActions(2);
-		this.setBandwidth(0);
+		this.setBandwidth(2);
 		this.setMaxBandwidth(2);
 	}
 	public int getBandwidth() {
