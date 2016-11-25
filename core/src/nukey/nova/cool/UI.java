@@ -117,6 +117,7 @@ public class UI {
 								target.setHP(target.getHP()-current.getAttack());
 								if (target.getHP()<0) {
 									game.getUnitManager().getUnits().remove(target);
+									tile2.setUnit(null);;
 								}
 								current.setActions(current.getActions()-1);
 							}
