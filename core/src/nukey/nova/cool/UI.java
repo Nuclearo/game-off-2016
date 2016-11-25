@@ -57,10 +57,17 @@ public class UI {
 	
 	public void draw(){
 		turnIndicator.setText(game.getCurrentPlayer().name()+"'s turn!");
-		if(game.getSelectedUnit()==null){
+		
+		final Unit selectedUnit = game.getSelectedUnit();
+		if(selectedUnit==null){
 			unitInfo.setVisible(false);
 		}else{
-			unitInfo.setText(unitInfoText[game.getSelectedUnit().getID()]);
+			String description = String.format("%s\nHP%12s\nATK%11d\n"
+					, unitInfoText[selectedUnit.getID()]
+					, String.format("%d/%d", selectedUnit.getHP(), selectedUnit.getMaxHP())
+					, selectedUnit.getAttack());
+			System.out.println(description);
+			unitInfo.setText(description);
 			unitInfo.setVisible(true);
 		}
 	    stage.act(Gdx.graphics.getDeltaTime());
