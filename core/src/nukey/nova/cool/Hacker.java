@@ -3,7 +3,7 @@ package nukey.nova.cool;
 import nukey.nova.cool.Cool.Player;
 
 public class Hacker extends Unit {
-	private int bandwidth,maxBandwidth;
+	private int bandwidth,maxBandwidth,hackRange;
 	public Hacker(int xpos, int ypos, Player owner) {
 		this.setXpos(xpos);
 		this.setYpos(ypos);
@@ -18,6 +18,7 @@ public class Hacker extends Unit {
 		this.setMaxActions(2);
 		this.setBandwidth(2);
 		this.setMaxBandwidth(2);
+		this.setHackRange(7);
 	}
 	public int getBandwidth() {
 		return bandwidth;
@@ -30,5 +31,11 @@ public class Hacker extends Unit {
 	}
 	public void setMaxBandwidth(int maxBandwidth) {
 		this.maxBandwidth = maxBandwidth;
+	}
+	public int getHackRange() {
+		return hackRange;
+	}
+	public void setHackRange(int hackRange) {
+		this.hackRange = hackRange;
 	}
 }

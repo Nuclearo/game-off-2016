@@ -1,6 +1,7 @@
 package nukey.nova.cool;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
@@ -103,7 +104,15 @@ public class UI {
 						int dist=world.getDistanceByCoords(current, worldCoord2.x, worldCoord2.y);
 						
 						if (tile2.getUnit()!=null) {
-							if (dist<current.getRange()) {
+							if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && (current instanceof Hacker)) {
+								if (dist<=((Hacker)current).getHackRange()) {
+									//needs specific rebalancing - take more than one action, have a progress meter thing
+									//(like, hack-HP and stuff)
+									//add later
+									tile2.getUnit().setOwner(current.getOwner());
+									current.setActions(current.getActions()-1);
+								}
+							} else if (dist<=current.getRange()) {
 								Unit target=tile2.getUnit();
 								target.setHP(target.getHP()-current.getAttack());
 								if (target.getHP()<0) {
@@ -112,7 +121,7 @@ public class UI {
 								current.setActions(current.getActions()-1);
 							}
 						} else {
-							if (dist<current.getSpeed()) {
+							if (dist<=current.getSpeed()) {
 								world.getTile(current.getXpos(),current.getYpos()).setUnit(null);
 								current.setXpos((int)(worldCoord2.x/world.getTileWidth()));
 								current.setYpos((int)(worldCoord2.y/world.getTileHeight()));
@@ -122,6 +131,11 @@ public class UI {
 						}
 					}
 				}
+
+				
+/* TODO 1: enemy actions
+2: hacking
+3: repeatable commands*/
 				return true;
 			default:
 				return false;
