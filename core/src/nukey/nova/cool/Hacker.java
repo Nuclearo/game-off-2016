@@ -13,7 +13,7 @@ public class Hacker extends Unit {
 		this.setRange(5);
 		this.setOwner(owner);
 		this.setSpeed(5);
-		this.setSprite(0);
+		this.setID(0);
 		this.setActions(2);
 		this.setMaxActions(2);
 		this.setBandwidth(2);

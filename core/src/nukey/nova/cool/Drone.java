@@ -12,7 +12,7 @@ public class Drone extends Unit {
 		this.setRange(3);
 		this.setOwner(owner);
 		this.setSpeed(3);
-		this.setSprite(1);
+		this.setID(1);
 		this.setActions(0);
 		this.setMaxActions(2);
 	}

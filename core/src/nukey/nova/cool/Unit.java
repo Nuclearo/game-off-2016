@@ -3,11 +3,11 @@ package nukey.nova.cool;
 import nukey.nova.cool.Cool.Player;
 
 public abstract class Unit {
-	private int xpos,ypos,HP,maxHP,attack,range,speed,sprite,actions,maxActions;
+	private int xpos,ypos,HP,maxHP,attack,range,speed,ID,actions,maxActions;
 	private Player owner;
 	
-	public int getSprite() {
-		return sprite;
+	public int getID() {
+		return ID;
 	}
 	
 	public int getXpos() {
@@ -86,8 +86,8 @@ public abstract class Unit {
 		this.ypos = ypos;
 	}
 
-	public void setSprite(int sprite) {
-		this.sprite = sprite;
+	public void setID(int ID) {
+		this.ID = ID;
 	}
 
 	public int getYpos() {

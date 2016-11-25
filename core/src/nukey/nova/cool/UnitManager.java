@@ -64,7 +64,7 @@ public class UnitManager {
 	}
 	public void render(SpriteBatch batch, Map map, Cool cool) {
 		for (Unit unit: units) {
-			batch.draw(sprites[unit.getSprite()], unit.getXpos()*map.getTileWidth(), unit.getYpos()*map.getTileHeight());
+			batch.draw(sprites[unit.getID()], unit.getXpos()*map.getTileWidth(), unit.getYpos()*map.getTileHeight());
 			if (unit.getOwner()==cool.getCurrentPlayer() && unit.getActions()==0) {
 				batch.draw(acted,unit.getXpos()*map.getTileWidth(),unit.getYpos()*map.getTileHeight());
 			}

@@ -24,6 +24,7 @@ public class UI {
 	private Table table;
 	private Cool game;
 	private Label turnIndicator;
+	private String[] unitInfoText = {"watashi desu", "sorera desu"};
 	private Label unitInfo;
 
 	
@@ -39,9 +40,9 @@ public class UI {
         
         table.add().expandX();
         
-        unitInfo = new Label ("Hi I'm a wobot!\nSuch siv...", new LabelStyle(font, Color.WHITE));
+        unitInfo = new Label ("error",new LabelStyle(font, Color.WHITE));
         unitInfo.setAlignment(Align.right);
-        table.add(unitInfo);
+    	table.add(unitInfo);
         unitInfo.setVisible(false);
         
         table.row();
@@ -59,8 +60,8 @@ public class UI {
 		if(game.getSelectedUnit()==null){
 			unitInfo.setVisible(false);
 		}else{
+			unitInfo.setText(unitInfoText[game.getSelectedUnit().getID()]);
 			unitInfo.setVisible(true);
-			//TODO fill unit info somehow
 		}
 	    stage.act(Gdx.graphics.getDeltaTime());
 	    stage.draw();
