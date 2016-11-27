@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Map {
 	private Tile[][] tilesheet;
 	private int height, width;
-	private int tileHeight=64,tileWidth=64;
+	private int tileHeight=1,tileWidth=1;
 	
 	private Sprite[] sprites={new Sprite(new Texture("tileA.jpg"))};
 	
@@ -24,7 +24,7 @@ public class Map {
 	}
 	
 	public Tile getTileByCoords(float x, float y){
-		return getTile((int)(x/tileWidth),(int)(y/tileHeight));
+		return getTile((int)Math.floor(x/tileWidth),(int)Math.floor(y/tileHeight));
 	}
 	
 	Map(String datafile) {
@@ -85,7 +85,7 @@ public class Map {
 	public void render(SpriteBatch batch) {
 		for (int i=0;i<height;i++) {
 			for (int j=0;j<width;j++) {
-				batch.draw(sprites[tilesheet[j][i].getType()], j*tileWidth, i*tileHeight);
+				batch.draw(sprites[tilesheet[j][i].getType()], j*tileWidth, i*tileHeight, tileWidth, tileHeight);
 			}
 		}
 	}

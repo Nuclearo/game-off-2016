@@ -6,18 +6,21 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class CameraInputProcessor extends CameraInputController {
 	public int edgeScrollWidth=16;
+	private Viewport view;
 	
-	public CameraInputProcessor(Camera cam){
-		super(cam);
+	public CameraInputProcessor(Viewport view){
+		super(view.getCamera());
+		this.view = view;
 		
 	/** The button for rotating the camera. */
 	rotateButton = -1;
 	rotateAngle = 0f;
 	translateButton = Buttons.RIGHT;
-	translateUnits = 10f; 
+	translateUnits = 2f; 
 	forwardButton = -1;
 	activateKey = 0;
 	alwaysScroll = true;
@@ -58,19 +61,26 @@ public class CameraInputProcessor extends CameraInputController {
 		int mouseX = Gdx.input.getX();
 		int mouseY = Gdx.input.getY();
 		if (mouseX<=edgeScrollWidth){
-			camera.translate(-translateUnits, 0, 0);
+			camera.translate(-translateUnits*Gdx.graphics.getDeltaTime(), 0, 0);
 		}
 		if (mouseX>=Gdx.graphics.getWidth()-edgeScrollWidth){
-			camera.translate(translateUnits, 0, 0);
+			camera.translate(translateUnits*Gdx.graphics.getDeltaTime(), 0, 0);
 		}
 		if (mouseY<=edgeScrollWidth){
-			camera.translate(0, translateUnits, 0);
+			camera.translate(0, translateUnits*Gdx.graphics.getDeltaTime(), 0);
 		}
 		if (mouseY>=Gdx.graphics.getHeight()-edgeScrollWidth){
-			camera.translate(0, -translateUnits, 0);
+			camera.translate(0, -translateUnits*Gdx.graphics.getDeltaTime(), 0);
 		}
 		super.update();
 		camera.update();
+	}
+	
+	@Override
+	public boolean scrolled(int amount) {
+		// TODO Auto-generated method stub
+		view.setWorldSize(view.getWorldWidth()+amount, view.getWorldHeight()+amount);
+		return true;
 	}
 
 }

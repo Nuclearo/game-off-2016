@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Cool extends ApplicationAdapter {
 	private SpriteBatch batch;
@@ -41,14 +42,22 @@ public class Cool extends ApplicationAdapter {
         int w = Gdx.graphics.getWidth();
         int h = Gdx.graphics.getHeight();
 
-		cam = new OrthographicCamera(16,9);
-		view = new ScalingViewport(Scaling.fill,w,h,cam);
+		cam = new OrthographicCamera();
+		view = new ScalingViewport(Scaling.fill,8,8,cam);
 		view.update(w, h);
-        cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 2);
+		Unit player=null;
+		for(Unit u: unitManager.getUnits()){
+			if(u instanceof Hacker){
+				player = u;
+				break;
+			}
+		}
+        cam.position.set(player.getXpos()+world.getTileWidth()/2,
+        		         player.getYpos()+world.getTileHeight()/2, 2);
         cam.far = 1000;
         cam.update();
         
-        camController = new CameraInputProcessor(cam);
+        camController = new CameraInputProcessor(view);
         camController.translateUnits = 1;
         camController.rotateAngle = 0;
         
@@ -64,7 +73,8 @@ public class Cool extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		camController.update();
-		batch.setProjectionMatrix(cam.combined);
+		view.apply();
+		batch.setProjectionMatrix(view.getCamera().combined);
 		batch.begin();
 		world.render(batch);
 		unitManager.render(batch, world, this);
@@ -75,6 +85,7 @@ public class Cool extends ApplicationAdapter {
 	
 	public void resize(int width, int height) {
         view.update(width, height);
+        cam.update();
 		gui.resize(width, height);
     }
 	
@@ -107,6 +118,10 @@ public class Cool extends ApplicationAdapter {
 
 	public Camera getCamera() {
 		return cam;
+	}
+	
+	public Viewport getViewport(){
+		return view;
 	}
 	
 	public Map getWorld() {
