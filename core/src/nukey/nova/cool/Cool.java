@@ -58,8 +58,6 @@ public class Cool extends ApplicationAdapter {
         cam.update();
         
         camController = new CameraInputProcessor(view);
-        camController.translateUnits = 1;
-        camController.rotateAngle = 0;
         
         InputMultiplexer mux = new InputMultiplexer();
         mux.addProcessor(gui.getController());
