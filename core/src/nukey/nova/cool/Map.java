@@ -46,8 +46,8 @@ public class Map {
 				tileRow=mapdata.readLine().split(",",width);
 				for (int j=0;j<width;j++) {
 					
-					tiletype=Integer.parseInt(tileRow[j]);					
-					tilesheet[j][height-1-i]=new Tile(tiletype);
+					tiletype=Integer.parseInt(tileRow[j]);		
+					tilesheet[j][height-1-i]=new Tile(tiletype,j,height-1-i);
 					
 				}
 			}

@@ -1,5 +1,7 @@
 package nukey.nova.cool;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import nukey.nova.cool.Cool.Player;
 
 public class Hacker extends Unit {
@@ -19,6 +21,7 @@ public class Hacker extends Unit {
 		this.setBandwidth(2);
 		this.setMaxBandwidth(2);
 		this.setHackRange(7);
+		this.abilities = new ArrayList<Action>(Arrays.asList(new Action[]{Action.MOVE, Action.HACK, Action.ATTACK}));
 	}
 	public int getBandwidth() {
 		return bandwidth;
@@ -38,4 +41,6 @@ public class Hacker extends Unit {
 	public void setHackRange(int hackRange) {
 		this.hackRange = hackRange;
 	}
+
+	
 }
