@@ -43,8 +43,9 @@ public class Hacker extends Unit {
 	}
 	@Override
 	public void doAction(Action action, Tile target, Cool game) {
-		if(action!=Action.HACK){
-			game.setAvailableBandwidth(game.getAvailableBandwidth()+action.bandwidthCost); //hackers don't need bandwidth to move
+		if(abilities.contains(action) && action!=Action.HACK){
+			//hackers only use bandwidth to hack
+			getOwner().setAvailableBandwidth(getOwner().getAvailableBandwidth()+action.bandwidthCost);
 		}
 		super.doAction(action, target, game);
 	}

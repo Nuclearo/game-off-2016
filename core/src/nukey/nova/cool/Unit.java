@@ -118,11 +118,11 @@ public abstract class Unit {
 	}
 	
 	public boolean canPerform(Action action){
-		return abilities.contains(action);
+		return abilities.contains(action) && owner.getAvailableBandwidth()>=action.bandwidthCost;
 	}
 	
 	public void doAction(Action action, Tile target, Cool game) {
-		if(!canPerform(action)||game.getAvailableBandwidth()<action.bandwidthCost){
+		if(!canPerform(action)){
 			return;
 		}
 		switch(action){
@@ -142,7 +142,7 @@ public abstract class Unit {
 				Unit enemy = target.getUnit();
 				enemy.setHP(enemy.getHP()-this.getAttack());
 				if (enemy.getHP()<=0) {
-					game.getUnitManager().getUnits().remove(target);
+					game.getUnitManager().getUnits().remove(enemy);
 					target.setUnit(null);;
 				}
 			}
@@ -161,7 +161,7 @@ public abstract class Unit {
 			System.err.println("What the fuck are you doing here?!");
 		}
 		
-		game.setAvailableBandwidth(game.getAvailableBandwidth()-action.bandwidthCost);
+		owner.setAvailableBandwidth(owner.getAvailableBandwidth()-action.bandwidthCost);
 	}
 	
 	public void queueCommand(Command cmd) {

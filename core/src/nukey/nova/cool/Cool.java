@@ -28,10 +28,18 @@ public class Cool extends ApplicationAdapter {
 
 	public enum Player{
 		HACKER,
-		AI
+		AI;
+		
+		private int availableBandwidth = 10;
+		public int getAvailableBandwidth() {
+			return availableBandwidth;
+		}
+
+		public void setAvailableBandwidth(int availableBandwidth) {
+			this.availableBandwidth = availableBandwidth;
+		}
 	}
 	private Player currentPlayer = Player.HACKER;
-	private int availableBandwidth = 10;
 	
 	@Override
 	public void create () {
@@ -102,20 +110,12 @@ public class Cool extends ApplicationAdapter {
 		if(currentPlayer==Player.HACKER){
 			currentPlayer = Player.AI;
 			unitManager.newTurn(currentPlayer);
-			availableBandwidth = 10;
+			currentPlayer.availableBandwidth = 10;
 		}else{
 			currentPlayer = Player.HACKER;
 			unitManager.newTurn(currentPlayer);
-			availableBandwidth = 10;
+			currentPlayer.availableBandwidth = 10;
 		}
-	}
-
-	public int getAvailableBandwidth() {
-		return availableBandwidth;
-	}
-
-	public void setAvailableBandwidth(int availableBandwidth) {
-		this.availableBandwidth = availableBandwidth;
 	}
 
 	public Unit getSelectedUnit() {
