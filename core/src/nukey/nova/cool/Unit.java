@@ -9,9 +9,14 @@ import nukey.nova.cool.Cool.Player;
 public abstract class Unit {
 	
 	public enum Action{
-		MOVE,
-		ATTACK,
-		HACK,
+		MOVE(2),
+		ATTACK(2),
+		HACK(10);
+		
+		public int bandwidthCost;
+		Action(int bandwidthCost){
+			this.bandwidthCost = bandwidthCost;
+		}
 	}
 	
 	private int xpos,ypos,HP,maxHP,attack,range,speed,ID,actions,maxActions;
@@ -117,7 +122,7 @@ public abstract class Unit {
 	}
 	
 	public void doAction(Action action, Tile target, Cool game) {
-		if(!canPerform(action)){
+		if(!canPerform(action)||game.getAvailableBandwidth()<action.bandwidthCost){
 			return;
 		}
 		switch(action){
@@ -155,7 +160,8 @@ public abstract class Unit {
 		default:
 			System.err.println("What the fuck are you doing here?!");
 		}
-		actions--; //did something
+		
+		game.setAvailableBandwidth(game.getAvailableBandwidth()-action.bandwidthCost);
 	}
 	
 	public void queueCommand(Command cmd) {

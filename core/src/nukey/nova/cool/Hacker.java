@@ -11,7 +11,7 @@ public class Hacker extends Unit {
 		this.setYpos(ypos);
 		this.setHP(5);
 		this.setMaxHP(5);
-		this.setAttack(1);
+		this.setAttack(0);
 		this.setRange(5);
 		this.setOwner(owner);
 		this.setSpeed(5);
@@ -21,7 +21,7 @@ public class Hacker extends Unit {
 		this.setBandwidth(2);
 		this.setMaxBandwidth(2);
 		this.setHackRange(7);
-		this.abilities = new ArrayList<Action>(Arrays.asList(new Action[]{Action.MOVE, Action.HACK, Action.ATTACK}));
+		this.abilities = new ArrayList<Action>(Arrays.asList(new Action[]{Action.MOVE, Action.HACK}));
 	}
 	public int getBandwidth() {
 		return bandwidth;
@@ -40,6 +40,13 @@ public class Hacker extends Unit {
 	}
 	public void setHackRange(int hackRange) {
 		this.hackRange = hackRange;
+	}
+	@Override
+	public void doAction(Action action, Tile target, Cool game) {
+		if(action!=Action.HACK){
+			game.setAvailableBandwidth(game.getAvailableBandwidth()+action.bandwidthCost); //hackers don't need bandwidth to move
+		}
+		super.doAction(action, target, game);
 	}
 
 	

@@ -9,11 +9,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Cool extends ApplicationAdapter {
 	private SpriteBatch batch;
-	private ScalingViewport view;
+	private Viewport view;
 	private OrthographicCamera cam;
 	private CameraInputProcessor camController;
 	private Map world;
@@ -30,6 +31,7 @@ public class Cool extends ApplicationAdapter {
 		AI
 	}
 	private Player currentPlayer = Player.HACKER;
+	private int availableBandwidth = 10;
 	
 	@Override
 	public void create () {
@@ -100,10 +102,20 @@ public class Cool extends ApplicationAdapter {
 		if(currentPlayer==Player.HACKER){
 			currentPlayer = Player.AI;
 			unitManager.newTurn(currentPlayer);
+			availableBandwidth = 10;
 		}else{
 			currentPlayer = Player.HACKER;
 			unitManager.newTurn(currentPlayer);
+			availableBandwidth = 10;
 		}
+	}
+
+	public int getAvailableBandwidth() {
+		return availableBandwidth;
+	}
+
+	public void setAvailableBandwidth(int availableBandwidth) {
+		this.availableBandwidth = availableBandwidth;
 	}
 
 	public Unit getSelectedUnit() {

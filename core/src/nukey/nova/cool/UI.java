@@ -103,7 +103,6 @@ public class UI {
 			case Buttons.RIGHT:
 				Unit current=game.getSelectedUnit();
 				if (current!=null &&
-					current.getActions()>0 &&
 					current.getOwner()==game.getCurrentPlayer()) {
 					Map world=game.getWorld();
 					
@@ -112,16 +111,21 @@ public class UI {
 					
 					if(tile2!=null){
 						int dist=world.getDistanceByCoords(current, worldCoord2.x, worldCoord2.y);
+						Action action = null;
 						
 						if (tile2.getUnit()!=null) { //Hack
 							if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) || Gdx.input.isKeyPressed(Input.Keys.SHIFT_RIGHT)) {
-								current.doAction(Action.HACK, tile2, game);
+								action = Action.HACK;
 //								}
 							} else if (dist<=current.getRange()) { //Attack
-								current.doAction(Action.ATTACK, tile2, game);
+								action = Action.ATTACK;
 							}
 						} else {
-							current.doAction(Action.MOVE, tile2, game);
+							action = Action.MOVE;
+						}
+						
+						if(action!=null){
+							current.doAction(action, tile2, game);
 						}
 					}
 				}
