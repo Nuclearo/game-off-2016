@@ -136,7 +136,7 @@ public abstract class Unit {
 			} else {
 				Unit enemy = target.getUnit();
 				enemy.setHP(enemy.getHP()-this.getAttack());
-				if (enemy.getHP()<0) {
+				if (enemy.getHP()<=0) {
 					game.getUnitManager().getUnits().remove(target);
 					target.setUnit(null);;
 				}
