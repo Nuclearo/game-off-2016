@@ -19,7 +19,7 @@ public class CameraInputProcessor extends CameraInputController {
 	/** The button for rotating the camera. */
 	rotateButton = -1;
 	rotateAngle = 0f;
-	translateButton = Buttons.RIGHT;
+	translateButton = Buttons.MIDDLE;
 	translateUnits = 2f; 
 	forwardButton = -1;
 	activateKey = 0;
