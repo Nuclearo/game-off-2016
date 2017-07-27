@@ -57,6 +57,12 @@ public class CameraInputProcessor extends CameraInputController {
 	}
 	
 	@Override
+	public boolean touchDown(float x, float y, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return super.touchDown(x, y, pointer, button);
+	}
+	
+	@Override
 	public void update() {
 		int mouseX = Gdx.input.getX();
 		int mouseY = Gdx.input.getY();

@@ -3,6 +3,7 @@ package nukey.nova.cool;
 import java.util.ArrayList;
 import java.util.Arrays;
 import nukey.nova.cool.Cool.Player;
+import nukey.nova.cool.Unit.Action;
 
 public class Hacker extends Unit {
 	private int bandwidth,maxBandwidth,hackRange;
@@ -14,7 +15,7 @@ public class Hacker extends Unit {
 		this.setAttack(0);
 		this.setRange(5);
 		this.setOwner(owner);
-		this.setSpeed(5);
+		this.setSpeed(7);
 		this.setID(0);
 		this.setActions(2);
 		this.setMaxActions(2);
@@ -41,13 +42,23 @@ public class Hacker extends Unit {
 	public void setHackRange(int hackRange) {
 		this.hackRange = hackRange;
 	}
+	
 	@Override
-	public void doAction(Action action, Tile target, Cool game) {
+	public boolean canPerform(Action action){
+		if(action == Action.HACK) {
+			return getOwner().getAvailableBandwidth()>=action.bandwidthCost;
+		} else {
+			return abilities.contains(action);
+		}
+	}
+	
+	@Override
+	public void queueCommand(Action action, Tile target, Cool game) {
 		if(abilities.contains(action) && action!=Action.HACK){
 			//hackers only use bandwidth to hack
 			getOwner().setAvailableBandwidth(getOwner().getAvailableBandwidth()+action.bandwidthCost);
 		}
-		super.doAction(action, target, game);
+		super.queueCommand(action, target, game);
 	}
 
 	

@@ -73,10 +73,12 @@ public class UnitManager {
 			}
 		}
 	}
+	
+	private final int TURN_TIME=420;
 	public void newTurn(Player startturn) {
 		for (Unit unit:units) {
 			if (unit.getOwner()==startturn) {
-				unit.setActions(unit.getMaxActions());
+				unit.setActions(TURN_TIME);
 			}
 			else {
 				unit.setActions(0);

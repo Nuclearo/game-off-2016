@@ -14,15 +14,20 @@ public abstract class Unit {
 		HACK(10);
 		
 		public int bandwidthCost;
+		public int actionCost;
 		Action(int bandwidthCost){
 			this.bandwidthCost = bandwidthCost;
 		}
 	}
 	
-	private int xpos,ypos,HP,maxHP,attack,range,speed,ID,actions,maxActions;
+	private int xpos,ypos,HP,maxHP,attack,range,speed,ID,time,maxActions;
 	private Player owner;
 	protected ArrayList<Action> abilities;
 	protected ArrayQueue<Command> commandQueue;
+	
+	public Unit() {
+		commandQueue = new ArrayQueue<Command>(8);
+	}
 	
 	public int getID() {
 		return ID;
@@ -41,11 +46,11 @@ public abstract class Unit {
 	}
 
 	public int getActions() {
-		return actions;
+		return time;
 	}
 
 	public void setActions(int actions) {
-		this.actions = actions;
+		this.time = actions;
 	}
 
 	public int getMaxActions() {
@@ -60,8 +65,8 @@ public abstract class Unit {
 		return HP;
 	}
 
-	public void setHP(int hP) {
-		HP = hP;
+	public void setHP(int HP) {
+		this.HP = HP;
 	}
 
 	public int getAttack() {
@@ -118,13 +123,12 @@ public abstract class Unit {
 	}
 	
 	public boolean canPerform(Action action){
-		return abilities.contains(action) && owner.getAvailableBandwidth()>=action.bandwidthCost;
+		System.out.println("have " + owner.getAvailableBandwidth() +"B, need " + action.bandwidthCost);
+		return abilities.contains(action) && (owner.getAvailableBandwidth()>=action.bandwidthCost);
 	}
 	
 	public void doAction(Action action, Tile target, Cool game) {
-		if(!canPerform(action)){
-			return;
-		}
+		System.out.println(this.getClass().getName()+" gonna "+action.name()+" and hast "+this.getOwner().getAvailableBandwidth()+"B left\n");
 		switch(action){
 		case HACK:
 			if(target.getUnit()==null){
@@ -162,10 +166,20 @@ public abstract class Unit {
 		}
 		
 		owner.setAvailableBandwidth(owner.getAvailableBandwidth()-action.bandwidthCost);
+		System.out.println("Now have " + owner.getAvailableBandwidth() + "B remaining\n");
 	}
 	
-	public void queueCommand(Command cmd) {
-		
+	public void queueCommand(Action action, Tile target, Cool game) {
+		if(!canPerform(action)){
+			return;
+		}
+		commandQueue.add(new Command(action, target));
+	}
+	
+	public void continueQueue(Cool game){
+		for(Command command:commandQueue) {
+			
+		}
 	}
 
 }

@@ -107,15 +107,9 @@ public class Cool extends ApplicationAdapter {
 	}
 
 	public void nextTurn() {
-		if(currentPlayer==Player.HACKER){
-			currentPlayer = Player.AI;
-			unitManager.newTurn(currentPlayer);
-			currentPlayer.availableBandwidth = 10;
-		}else{
-			currentPlayer = Player.HACKER;
-			unitManager.newTurn(currentPlayer);
-			currentPlayer.availableBandwidth = 10;
-		}
+		currentPlayer = Player.values()[(currentPlayer.ordinal()+1)%Player.values().length];
+		unitManager.newTurn(currentPlayer);
+		currentPlayer.availableBandwidth = 10;
 	}
 
 	public Unit getSelectedUnit() {
