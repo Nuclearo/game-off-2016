@@ -74,13 +74,14 @@ public class UnitManager {
 		}
 	}
 	
-	private final int TURN_TIME=420;
-	public void newTurn(Player startturn) {
+	private final int TURN_TIME=2;
+	public void newTurn(Player startturn, Cool game) {
 		for (Unit unit:units) {
 			if (unit.getOwner()==startturn) {
 				unit.setActions(TURN_TIME);
 			}
 			else {
+				unit.continueQueue(game);
 				unit.setActions(0);
 			}
 		}

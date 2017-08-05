@@ -10,4 +10,8 @@ public class Command {
 		this.action = action;
 		this.target = target;
 	}
+
+	public int bandwidthCost() {
+		return action.bandwidthCost;
+	}
 }

@@ -1,8 +1,9 @@
 package nukey.nova.cool;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
-import com.sun.jmx.remote.internal.ArrayQueue;
+import com.badlogic.gdx.utils.Queue;
 
 import nukey.nova.cool.Cool.Player;
 
@@ -23,10 +24,10 @@ public abstract class Unit {
 	private int xpos,ypos,HP,maxHP,attack,range,speed,ID,time,maxActions;
 	private Player owner;
 	protected ArrayList<Action> abilities;
-	protected ArrayQueue<Command> commandQueue;
+	protected Queue<Command> commandQueue;
 	
 	public Unit() {
-		commandQueue = new ArrayQueue<Command>(8);
+		commandQueue = new Queue<Command>(8);
 	}
 	
 	public int getID() {
@@ -164,21 +165,39 @@ public abstract class Unit {
 		default:
 			System.err.println("What the fuck are you doing here?!");
 		}
-		
+		time--;
 		owner.setAvailableBandwidth(owner.getAvailableBandwidth()-action.bandwidthCost);
 		System.out.println("Now have " + owner.getAvailableBandwidth() + "B remaining\n");
 	}
 	
-	public void queueCommand(Action action, Tile target, Cool game) {
-		if(!canPerform(action)){
+	public void sendCommand(Command command, Cool game) {
+		if(!canReceive(command)) {
 			return;
 		}
-		commandQueue.add(new Command(action, target));
+		if(hasTime(command)) {
+			doAction(command.action, command.target, game);
+		} else {
+			commandQueue.addLast(command);
+		}
 	}
 	
+	private boolean hasTime(Command command) {
+		return time>0;
+	}
+
+	private boolean canReceive(Command command) {
+		return canPerform(command.action) &&
+				getOwner().getAvailableBandwidth()>=command.bandwidthCost();
+	}
+
 	public void continueQueue(Cool game){
-		for(Command command:commandQueue) {
-			
+		try { //queue has no empty method.. really? :\
+			while(hasTime(commandQueue.first())) {
+				Command command  =  commandQueue.removeFirst();
+				doAction(command.action, command.target, game);
+			}
+		} catch (NoSuchElementException e) {
+			return;
 		}
 	}
 

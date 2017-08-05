@@ -108,7 +108,7 @@ public class Cool extends ApplicationAdapter {
 
 	public void nextTurn() {
 		currentPlayer = Player.values()[(currentPlayer.ordinal()+1)%Player.values().length];
-		unitManager.newTurn(currentPlayer);
+		unitManager.newTurn(currentPlayer, this);
 		currentPlayer.availableBandwidth = 10;
 	}
 

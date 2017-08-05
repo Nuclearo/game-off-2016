@@ -155,7 +155,7 @@ public class UI implements EventListener{
 				} else {
 					Unit current=game.getSelectedUnit();
 					if (current!=null && current.getOwner()==game.getCurrentPlayer()) {
-						current.doAction(selectedAction, tile, game);
+						current.sendCommand(new Command(selectedAction, tile), game);
 					}
 				}
 				return true;
@@ -180,7 +180,6 @@ public class UI implements EventListener{
 						if (tile2.getUnit()!=null) { //Hack
 							if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) || Gdx.input.isKeyPressed(Input.Keys.SHIFT_RIGHT)) {
 								action = Action.HACK;
-//								}
 							} else if (dist<=current.getRange()) { //Attack
 								action = Action.ATTACK;
 							}
@@ -189,14 +188,13 @@ public class UI implements EventListener{
 						}
 						
 						if(action!=null&&current.canPerform(action)){
-							current.doAction(action, tile2, game);
+							current.sendCommand(new Command(action, tile2), game);
 						}
 					}
 				}
 
 				
 /* TODO 1: enemy actions
-2: hacking
 3: repeatable commands*/
 				return true;
 			default:
