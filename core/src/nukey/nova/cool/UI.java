@@ -42,6 +42,7 @@ public class UI implements EventListener{
 	private Label turnIndicator;
 	private String[] unitInfoText = {"watashi desu", "sorera desu"};
 	private Label unitInfo;
+	private Label bandwidthIndicator;
 	private Action selectedAction = null; 
 
 	
@@ -55,7 +56,8 @@ public class UI implements EventListener{
         turnIndicator = new Label("Turn indicator",new LabelStyle(font,Color.GREEN));
         hudTable.add(turnIndicator).top();
         
-        hudTable.add().expandX();
+        bandwidthIndicator = new Label ("Bandwidth",new LabelStyle(font, Color.WHITE)); 
+        hudTable.add(bandwidthIndicator).expandX();
         
         unitInfo = new Label ("error",new LabelStyle(font, Color.WHITE));
         unitInfo.setAlignment(Align.right);
@@ -101,6 +103,7 @@ public class UI implements EventListener{
 	
 	public void draw(){
 		turnIndicator.setText(game.getCurrentPlayer().name()+"'s turn!");
+		bandwidthIndicator.setText("BANDWIDTH: "+game.getCurrentPlayer().getAvailableBandwidth()+"/10");
 		
 		final Unit selectedUnit = game.getSelectedUnit();
 		if(selectedUnit==null){

@@ -124,12 +124,10 @@ public abstract class Unit {
 	}
 	
 	public boolean canPerform(Action action){
-		System.out.println("have " + owner.getAvailableBandwidth() +"B, need " + action.bandwidthCost);
 		return abilities.contains(action) && (owner.getAvailableBandwidth()>=action.bandwidthCost);
 	}
 	
 	public void doAction(Action action, Tile target, Cool game) {
-		System.out.println(this.getClass().getName()+" gonna "+action.name()+" and hast "+this.getOwner().getAvailableBandwidth()+"B left\n");
 		switch(action){
 		case HACK:
 			if(target.getUnit()==null){
@@ -167,7 +165,6 @@ public abstract class Unit {
 		}
 		time--;
 		owner.setAvailableBandwidth(owner.getAvailableBandwidth()-action.bandwidthCost);
-		System.out.println("Now have " + owner.getAvailableBandwidth() + "B remaining\n");
 	}
 	
 	public void sendCommand(Command command, Cool game) {
