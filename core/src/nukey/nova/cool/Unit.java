@@ -10,14 +10,15 @@ import nukey.nova.cool.Cool.Player;
 public abstract class Unit {
 	
 	public enum Action{
-		MOVE(2),
-		ATTACK(2),
-		HACK(10);
+		MOVE(2,1),
+		ATTACK(2,2),
+		HACK(10,0);
 		
 		public int bandwidthCost;
 		public int actionCost;
-		Action(int bandwidthCost){
+		Action(int bandwidthCost, int actionCost){
 			this.bandwidthCost = bandwidthCost;
+			this.actionCost = actionCost;
 		}
 	}
 	
@@ -118,11 +119,6 @@ public abstract class Unit {
 		return ypos;
 	}
 
-
-	public void act() {
-		
-	}
-	
 	public boolean canPerform(Action action){
 		return abilities.contains(action) && (owner.getAvailableBandwidth()>=action.bandwidthCost);
 	}
@@ -163,7 +159,7 @@ public abstract class Unit {
 		default:
 			System.err.println("What the fuck are you doing here?!");
 		}
-		time--;
+		time -= action.actionCost;
 		owner.setAvailableBandwidth(owner.getAvailableBandwidth()-action.bandwidthCost);
 	}
 	
@@ -179,7 +175,7 @@ public abstract class Unit {
 	}
 	
 	private boolean hasTime(Command command) {
-		return time>0;
+		return time>=command.action.actionCost;
 	}
 
 	private boolean canReceive(Command command) {

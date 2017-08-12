@@ -112,10 +112,11 @@ public class UI implements EventListener{
 				buttons[action.ordinal()].setDisabled(true);
 			}
 		}else{
-			String description = String.format("%s\nHP%12s\nATK%11d\n"
+			String description = String.format("%s\nHP%12s\nATK%11d\nActions%7d"
 					, unitInfoText[selectedUnit.getID()]
 					, String.format("%d/%d", selectedUnit.getHP(), selectedUnit.getMaxHP())
-					, selectedUnit.getAttack());
+					, selectedUnit.getAttack()
+					, selectedUnit.getActions());
 			unitInfo.setText(description);
 			unitInfo.setVisible(true);
 			for(Action action: Action.values()) {
